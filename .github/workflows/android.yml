@@ -19,7 +19,12 @@ jobs:
         uses: android-actions/setup-android@v4
         with:
           packages: 'platform-tools'
-      - name: Install Android SDK platform
-        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+      - name: Install Android 17 compile SDK and build tools
+        run: sdkmanager "platforms;android-CinnamonBun" "build-tools;37.0.0"
       - name: Run required builds and checks
         run: ./gradlew assembleDebug testDebugUnitTest lintDebug assembleRelease bundleRelease
+      - name: Report release artifacts
+        if: success()
+        run: |
+          find app/build/outputs/apk/release -maxdepth 1 -type f -name '*.apk' -exec sh -c 'printf "%s: %s KB\n" "$1" "$((($(wc -c < "$1") + 1023) / 1024))"' _ {} \;
+          find app/build/outputs/bundle/release -maxdepth 1 -type f -name '*.aab' -exec sh -c 'printf "%s: %s KB\n" "$1" "$((($(wc -c < "$1") + 1023) / 1024))"' _ {} \;
