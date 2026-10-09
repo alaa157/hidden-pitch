@@ -44,6 +44,7 @@
     <string name="status_pending_review">Pending review</string>
     <string name="status_approved">Approved</string>
     <string name="status_rejected">Rejected</string>
+    <string name="status_deleted">Deleted</string>
     <string name="status_deletion_pending">Deletion pending</string>
     <string name="home_placeholder_body">The place list will appear here.</string>
     <string name="home_sample_place_title">Sample sports place</string>
