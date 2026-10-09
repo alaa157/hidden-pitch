@@ -1,4 +1,3 @@
-import com.android.build.api.dsl.ApplicationExtension
 import java.io.File
 import java.util.Properties
 import javax.xml.parsers.DocumentBuilderFactory
@@ -19,10 +18,9 @@ fun buildConfigString(value: String): String {
     return "\"" + escaped + "\""
 }
 
-extensions.configure<ApplicationExtension> {
+android {
     namespace = "hiddenpitch"
     compileSdk = 36
-
     defaultConfig {
         applicationId = "hiddenpitch"
         minSdk = 26
@@ -32,7 +30,6 @@ extensions.configure<ApplicationExtension> {
         buildConfigField("String", "SUPABASE_URL", buildConfigString(localProperties.getProperty("SUPABASE_URL", "")))
         buildConfigField("String", "SUPABASE_ANON_KEY", buildConfigString(localProperties.getProperty("SUPABASE_ANON_KEY", "")))
     }
-
     androidResources { localeFilters += listOf("en", "ar") }
     buildFeatures { compose = true; buildConfig = true }
     compileOptions {
