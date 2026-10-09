@@ -19,6 +19,8 @@ jobs:
         uses: android-actions/setup-android@v4
         with:
           packages: 'platform-tools'
+      - name: Show available Android 17 SDK package IDs
+        run: sdkmanager --list --channel=3 | grep -Ei 'platforms;android|build-tools;37|Cinnamon' || true
       - name: Install Android 17 preview compile SDK and build tools
         run: sdkmanager --channel=3 "platforms;android-CinnamonBun" "build-tools;37.0.0"
       - name: Run required builds and checks
