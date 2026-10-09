@@ -44,6 +44,7 @@
     <string name="status_pending_review">قيد المراجعة</string>
     <string name="status_approved">تمت الموافقة</string>
     <string name="status_rejected">مرفوض</string>
+    <string name="status_deleted">تم الحذف</string>
     <string name="status_deletion_pending">طلب الحذف قيد المراجعة</string>
     <string name="home_placeholder_body">ستظهر قائمة الأماكن هنا.</string>
     <string name="home_sample_place_title">مكان رياضي تجريبي</string>
