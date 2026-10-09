@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,7 +45,6 @@ data class SettingsUiState(val selectedLanguage: AppLanguageChoice)
 class SettingsViewModel(private val localeManager: LocaleManager) : ViewModel() {
     private val mutableUiState = MutableStateFlow(SettingsUiState(localeManager.currentChoice))
     val uiState: StateFlow<SettingsUiState> = mutableUiState.asStateFlow()
-
     fun selectLanguage(choice: AppLanguageChoice) {
         mutableUiState.value = SettingsUiState(choice)
         localeManager.setChoice(choice)
@@ -58,12 +58,9 @@ fun SettingsScreen(onBack: () -> Unit, factory: ViewModelProvider.Factory) {
     SettingsContent(uiState.selectedLanguage, viewModel::selectLanguage, onBack)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SettingsContent(
-    selectedLanguage: AppLanguageChoice,
-    onLanguageSelected: (AppLanguageChoice) -> Unit,
-    onBack: () -> Unit
-) {
+internal fun SettingsContent(selectedLanguage: AppLanguageChoice, onLanguageSelected: (AppLanguageChoice) -> Unit, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -76,10 +73,7 @@ internal fun SettingsContent(
             )
         }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier.fillMaxSize().padding(innerPadding).padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+        Column(Modifier.fillMaxSize().padding(innerPadding).padding(24.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(stringResource(R.string.settings_language_title), style = MaterialTheme.typography.titleLarge)
             AppLanguageChoice.entries.forEach { choice ->
                 Row(
@@ -96,9 +90,7 @@ internal fun SettingsContent(
                 }
             }
             Spacer(Modifier.width(1.dp))
-            OutlinedButton(onClick = {}, enabled = false, modifier = Modifier.fillMaxWidth()) {
-                Text(stringResource(R.string.action_sign_in))
-            }
+            OutlinedButton(onClick = {}, enabled = false, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.action_sign_in)) }
             Text(stringResource(R.string.settings_sign_in_placeholder), style = MaterialTheme.typography.bodyMedium)
         }
     }
