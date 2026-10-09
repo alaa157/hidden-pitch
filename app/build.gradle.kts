@@ -20,7 +20,7 @@ fun buildConfigString(value: String): String {
 
 android {
     namespace = "hiddenpitch"
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig {
         applicationId = "hiddenpitch"
         minSdk = 26
