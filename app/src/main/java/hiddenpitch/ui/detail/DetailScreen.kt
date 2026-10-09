@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +34,7 @@ class DetailViewModel : ViewModel() {
     val uiState: StateFlow<DetailUiState> = mutableUiState.asStateFlow()
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(placeId: String, onBack: () -> Unit, factory: ViewModelProvider.Factory) {
     val viewModel: DetailViewModel = viewModel(factory = factory)
@@ -49,10 +51,7 @@ fun DetailScreen(placeId: String, onBack: () -> Unit, factory: ViewModelProvider
             )
         }
     ) { innerPadding ->
-        Column(
-            Modifier.fillMaxSize().padding(innerPadding).padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
+        Column(Modifier.fillMaxSize().padding(innerPadding).padding(24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Text(stringResource(uiState.bodyRes), style = MaterialTheme.typography.bodyLarge)
             Text(stringResource(R.string.detail_placeholder_place_id, placeId), style = MaterialTheme.typography.bodyMedium)
         }
