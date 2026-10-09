@@ -5,7 +5,7 @@ Phase M2 provides a lightweight Jetpack Compose shell, Material 3 theme, navigat
 ## Requirements
 
 - JDK 17
-- Android SDK Platform 37
+- Android SDK Platform 36 (Android 16 stable)
 - Internet access for initial Gradle and dependency downloads
 
 The text launchers bootstrap the pinned Gradle 9.6.0 distribution on first run, because the binary Gradle Wrapper JAR is not stored in this repository.

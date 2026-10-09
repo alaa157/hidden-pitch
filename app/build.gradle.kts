@@ -10,9 +10,7 @@ plugins {
 
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.isFile) {
-    localPropertiesFile.inputStream().use { localProperties.load(it) }
-}
+if (localPropertiesFile.isFile) localPropertiesFile.inputStream().use { localProperties.load(it) }
 
 fun buildConfigString(value: String): String {
     val slash = 92.toChar().toString()
@@ -22,67 +20,41 @@ fun buildConfigString(value: String): String {
 
 android {
     namespace = "hiddenpitch"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "hiddenpitch"
         minSdk = 26
-        targetSdk = 37
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         buildConfigField("String", "SUPABASE_URL", buildConfigString(localProperties.getProperty("SUPABASE_URL", "")))
         buildConfigField("String", "SUPABASE_ANON_KEY", buildConfigString(localProperties.getProperty("SUPABASE_ANON_KEY", "")))
     }
 
-    androidResources {
-        localeFilters += listOf("en", "ar")
-    }
-
-    buildFeatures {
-        compose = true
-        buildConfig = true
-    }
-
+    androidResources { localeFilters += listOf("en", "ar") }
+    buildFeatures { compose = true; buildConfig = true }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
     buildTypes {
-        debug {
-            isMinifyEnabled = false
-        }
+        debug { isMinifyEnabled = false }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-
     lint {
         abortOnError = true
         checkReleaseBuilds = true
-        error += listOf(
-            "HardcodedText",
-            "RtlHardcoded",
-            "RtlSymmetry",
-            "RtlEnabled",
-            "MissingTranslation",
-            "ExtraTranslation"
-        )
+        error += listOf("HardcodedText", "RtlHardcoded", "RtlSymmetry", "RtlEnabled", "MissingTranslation", "ExtraTranslation")
     }
-
-    vectorDrawables {
-        useSupportLibrary = false
-    }
+    vectorDrawables { useSupportLibrary = false }
 }
 
-kotlin {
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-    }
-}
+kotlin { compilerOptions { jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17) } }
 
 dependencies {
     implementation(platform(libs.compose.bom))
@@ -96,9 +68,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.coroutines.android)
-
     testImplementation(libs.junit)
-
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
 }
@@ -107,7 +77,6 @@ val verifyStringResourceParity = tasks.register("verifyStringResourceParity") {
     val englishFile = layout.projectDirectory.file("src/main/res/values/strings.xml")
     val arabicFile = layout.projectDirectory.file("src/main/res/values-ar/strings.xml")
     inputs.files(englishFile, arabicFile)
-
     doLast {
         fun resourceKeys(file: File): Set<String> {
             val factory = DocumentBuilderFactory.newInstance()
@@ -124,19 +93,14 @@ val verifyStringResourceParity = tasks.register("verifyStringResourceParity") {
             }
             return keys
         }
-
         val englishKeys = resourceKeys(englishFile.asFile)
         val arabicKeys = resourceKeys(arabicFile.asFile)
         check(englishKeys == arabicKeys) {
-            "English/Arabic resource keys differ. English only: " +
-                (englishKeys - arabicKeys) + "; Arabic only: " + (arabicKeys - englishKeys)
+            "English/Arabic resource keys differ. English only: " + (englishKeys - arabicKeys) +
+                "; Arabic only: " + (arabicKeys - englishKeys)
         }
     }
 }
 
-tasks.named("preBuild").configure {
-    dependsOn(verifyStringResourceParity)
-}
-tasks.named("check").configure {
-    dependsOn(verifyStringResourceParity)
-}
+tasks.named("preBuild").configure { dependsOn(verifyStringResourceParity) }
+tasks.named("check").configure { dependsOn(verifyStringResourceParity) }
