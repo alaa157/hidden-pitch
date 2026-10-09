@@ -24,7 +24,7 @@ android {
     defaultConfig {
         applicationId = "hiddenpitch"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
         buildConfigField("String", "SUPABASE_URL", buildConfigString(localProperties.getProperty("SUPABASE_URL", "")))
