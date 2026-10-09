@@ -22,7 +22,8 @@ android {
     namespace = "hiddenpitch"
     compileSdk = 37
     defaultConfig {
-        applicationId = "hiddenpitch"
+        // Android application IDs require at least two dot-separated segments.
+        applicationId = "hiddenpitch.app"
         minSdk = 26
         targetSdk = 37
         versionCode = 1
