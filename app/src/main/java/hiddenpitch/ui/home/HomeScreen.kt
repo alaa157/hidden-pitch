@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -51,43 +52,24 @@ class HomeViewModel : ViewModel() {
 }
 
 @Composable
-fun HomeScreen(
-    onOpenDetail: (String) -> Unit,
-    onOpenAdd: () -> Unit,
-    onOpenMyPlaces: () -> Unit,
-    onOpenSettings: () -> Unit,
-    factory: ViewModelProvider.Factory
-) {
+fun HomeScreen(onOpenDetail: (String) -> Unit, onOpenAdd: () -> Unit, onOpenMyPlaces: () -> Unit, onOpenSettings: () -> Unit, factory: ViewModelProvider.Factory) {
     val viewModel: HomeViewModel = viewModel(factory = factory)
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     HomeContent(uiState, onOpenDetail, onOpenAdd, onOpenMyPlaces, onOpenSettings)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun HomeContent(
-    uiState: HomeUiState = HomeUiState(),
-    onOpenDetail: (String) -> Unit,
-    onOpenAdd: () -> Unit,
-    onOpenMyPlaces: () -> Unit,
-    onOpenSettings: () -> Unit
-) {
+internal fun HomeContent(uiState: HomeUiState = HomeUiState(), onOpenDetail: (String) -> Unit, onOpenAdd: () -> Unit, onOpenMyPlaces: () -> Unit, onOpenSettings: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.screen_home_title)) },
                 actions = {
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Filled.Search, contentDescription = stringResource(R.string.action_search))
-                    }
-                    IconButton(onClick = {}) {
-                        Icon(painterResource(R.drawable.ic_filter_list), contentDescription = stringResource(R.string.action_filters))
-                    }
-                    IconButton(onClick = onOpenMyPlaces) {
-                        Icon(Icons.Filled.Person, contentDescription = stringResource(R.string.action_my_places))
-                    }
-                    IconButton(onClick = onOpenSettings) {
-                        Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.action_settings))
-                    }
+                    IconButton(onClick = {}) { Icon(Icons.Filled.Search, contentDescription = stringResource(R.string.action_search)) }
+                    IconButton(onClick = {}) { Icon(painterResource(R.drawable.ic_filter_list), contentDescription = stringResource(R.string.action_filters)) }
+                    IconButton(onClick = onOpenMyPlaces) { Icon(Icons.Filled.Person, contentDescription = stringResource(R.string.action_my_places)) }
+                    IconButton(onClick = onOpenSettings) { Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.action_settings)) }
                 }
             )
         },
@@ -101,10 +83,7 @@ internal fun HomeContent(
             }
         }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier.fillMaxSize().padding(innerPadding).padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
+        Column(Modifier.fillMaxSize().padding(innerPadding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text(stringResource(uiState.placeholderRes), style = MaterialTheme.typography.bodyLarge)
             Card(onClick = { onOpenDetail("sample-place") }, modifier = Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
