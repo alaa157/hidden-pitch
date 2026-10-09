@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.ApplicationExtension
 import java.io.File
 import java.util.Properties
 import javax.xml.parsers.DocumentBuilderFactory
@@ -18,7 +19,7 @@ fun buildConfigString(value: String): String {
     return "\"" + escaped + "\""
 }
 
-android {
+extensions.configure<ApplicationExtension> {
     namespace = "hiddenpitch"
     compileSdk = 36
 
@@ -51,7 +52,6 @@ android {
         checkReleaseBuilds = true
         error += listOf("HardcodedText", "RtlHardcoded", "RtlSymmetry", "RtlEnabled", "MissingTranslation", "ExtraTranslation")
     }
-    vectorDrawables { useSupportLibrary = false }
 }
 
 kotlin { compilerOptions { jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17) } }
